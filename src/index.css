@@ -1,0 +1,492 @@
+/* Colours live in one place as CSS variables, so changing the theme
+   means editing only these lines. */
+:root {
+  --color-primary: #1e4d8c;
+  --color-primary-dark: #163a6b;
+  --color-accent: #f5a623;
+  --color-bg: #f6f8fb;
+  --color-surface: #ffffff;
+  --color-text: #1f2933;
+  --color-muted: #616e7c;
+  --color-border: #d9e2ec;
+
+  /* Pin colours: semi-transparent so the drawn pin underneath shows through */
+  --pin-academic: rgba(30, 77, 140, 0.8);
+  --pin-hostel: rgba(196, 98, 16, 0.8);
+  --pin-food: rgba(46, 125, 50, 0.8);
+  --pin-sports: rgba(123, 31, 162, 0.8);
+  --pin-facility: rgba(198, 40, 40, 0.8);
+
+  --radius: 8px;
+  --max-width: 1280px;
+
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+/* Box model: width/height include padding and border, which makes
+   layouts much easier to reason about. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+}
+
+a {
+  color: var(--color-primary);
+}
+
+/* Flexbox column so the footer is pushed to the bottom even when the
+   page content is short. */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+}
+
+/* ---------- Navbar ---------- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--color-primary);
+}
+
+.navbar-brand {
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-decoration: none;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.navbar-links a {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius);
+}
+
+.navbar-links a:hover,
+.navbar-links a:focus-visible {
+  background: var(--color-primary-dark);
+}
+
+/* NavLink adds the "active" class to the current page's link */
+.navbar-links a.active {
+  background: var(--color-accent);
+  color: var(--color-text);
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  text-align: center;
+  padding: 1rem;
+  color: var(--color-muted);
+  border-top: 1px solid var(--color-border);
+  font-size: 0.9rem;
+}
+
+.footer p {
+  margin: 0;
+}
+
+h1 {
+  margin-top: 0;
+  color: var(--color-primary-dark);
+}
+
+/* Shared focus ring for every button and link, for keyboard users */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Home page ---------- */
+.hero {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.hero p {
+  max-width: 60ch;
+  font-size: 1.1rem;
+}
+
+.button-primary {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: var(--radius);
+}
+
+.button-primary:hover {
+  background: var(--color-primary-dark);
+}
+
+/* CSS Grid: as many 220px+ columns as fit, so the cards wrap by
+   themselves on smaller screens. */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  display: block;
+  padding: 1.25rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  color: var(--color-text);
+  text-decoration: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.card:hover,
+.card:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+  margin: 0 0 0.25rem;
+  color: var(--color-primary);
+}
+
+.card p {
+  margin: 0;
+  color: var(--color-muted);
+}
+
+/* ---------- About page ---------- */
+.about {
+  max-width: 70ch;
+}
+
+/* ---------- Map page: controls ---------- */
+.page-intro {
+  color: var(--color-muted);
+}
+
+kbd {
+  padding: 0 0.35rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-surface);
+  font-size: 0.85em;
+}
+
+.map-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.category-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filter-button {
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.filter-button:hover {
+  border-color: var(--color-primary);
+}
+
+.filter-button.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+
+.search-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+.search-box input {
+  min-width: 240px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font: inherit;
+  color: var(--color-text);
+}
+
+/* ---------- Map page: layout ---------- */
+/* Desktop: map on the left, details + list in a 340px column on the right.
+   minmax(0, 1fr) lets the map column shrink instead of overflowing. */
+.map-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.side-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ---------- The map and its pins ---------- */
+.map-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+/* position: relative makes this box the reference point for the
+   absolutely positioned pins inside it. */
+.map-container {
+  position: relative;
+}
+
+.map-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.map-pin {
+  /* left/top come from the data (inline style) as percentages.
+     translate(-50%, -50%) moves the pin back by half its own size,
+     so its centre (not its top-left corner) sits on the point. */
+  position: absolute;
+  transform: translate(-50%, -50%);
+  min-width: 26px;
+  height: 26px;
+  padding: 0 5px;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  background: var(--pin-academic);
+  color: #fff;
+  font: 700 0.7rem/1 system-ui, sans-serif;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  transition: transform 0.15s;
+}
+
+.pin-hostel { background: var(--pin-hostel); }
+.pin-food { background: var(--pin-food); }
+.pin-sports { background: var(--pin-sports); }
+.pin-facility { background: var(--pin-facility); }
+
+/* z-index brings a hovered/selected pin above its neighbours */
+.map-pin:hover,
+.map-pin:focus-visible {
+  transform: translate(-50%, -50%) scale(1.25);
+  z-index: 2;
+}
+
+.map-pin.selected {
+  background: var(--color-accent);
+  color: var(--color-text);
+  transform: translate(-50%, -50%) scale(1.35);
+  box-shadow: 0 0 0 4px rgba(245, 166, 35, 0.45);
+  z-index: 3;
+}
+
+.scroll-hint {
+  display: none;
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+/* ---------- Details panel ---------- */
+.details-panel {
+  padding: 1.25rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left: 5px solid var(--color-accent);
+  border-radius: var(--radius);
+}
+
+.details-panel h2 {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 1.3rem;
+}
+
+.details-panel h3 {
+  margin: 1rem 0 0.25rem;
+  font-size: 1rem;
+  color: var(--color-primary);
+}
+
+.details-panel p {
+  margin: 0.25rem 0;
+}
+
+.details-empty {
+  border-left-color: var(--color-border);
+}
+
+.details-empty h2 {
+  margin-top: 0;
+}
+
+.details-grid {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.category-badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  background: var(--pin-academic);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.badge-hostel { background: var(--pin-hostel); }
+.badge-food { background: var(--pin-food); }
+.badge-sports { background: var(--pin-sports); }
+.badge-facility { background: var(--pin-facility); }
+
+.clear-button {
+  margin-top: 1rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  font: inherit;
+  cursor: pointer;
+}
+
+.clear-button:hover {
+  border-color: var(--color-primary);
+}
+
+/* ---------- Location list ---------- */
+.location-list-section h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+}
+
+.location-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 420px;
+  overflow-y: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  background: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.list-item:hover {
+  background: var(--color-bg);
+}
+
+.list-item.selected {
+  background: #fff4e0;
+  font-weight: 600;
+}
+
+.list-category {
+  flex-shrink: 0;
+  width: 4.5rem;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
+.list-empty {
+  color: var(--color-muted);
+}
+
+/* ---------- Responsive: tablets and phones ---------- */
+@media (max-width: 900px) {
+  /* Stack the map above the details and list. minmax(0, 1fr) stops the
+     wide map from stretching the column (it scrolls inside .map-scroll). */
+  .map-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .search-box,
+  .search-box input {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    justify-content: center;
+  }
+
+  .hero {
+    padding: 1.25rem;
+  }
+
+  /* On a phone the whole map would be too small to tap the pins,
+     so keep it at least 800px wide and let the user scroll sideways. */
+  .map-container {
+    min-width: 800px;
+  }
+
+  .scroll-hint {
+    display: block;
+  }
+}
