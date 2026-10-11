@@ -1,3 +1,4 @@
+
 # NIT Srinagar — Freshers' Campus Guide
 
 A small React website that helps new students find their way around the NIT Srinagar campus. Click a pin on the campus map to see what the place is and how to get there.
@@ -33,3 +34,7 @@ All locations are in [src/data/locations.js](src/data/locations.js). Fields set 
 ## Credits
 
 Campus map by Ibrahim Salaria and Samreen Sariya Jabal, Department of Civil Engineering, NIT Srinagar.
+
+# campusGuide
+react based final project for web dev 3rd semester  fall 2026 
+
