@@ -229,8 +229,6 @@ To find x and y for a new place: x = pixel x ÷ 2810 × 100, and y = pixel y ÷ 
 
 No UI library, no Redux or Context, no backend and no map API. The map is just an `<img>` with buttons placed on top.
 
-For a more detailed walk-through (including likely viva questions), see [VIVA_NOTES.md](VIVA_NOTES.md).
-
 ---
 
 ## Credits

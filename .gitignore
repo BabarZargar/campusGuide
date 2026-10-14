@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Private viva notes (kept locally, not on GitHub)
+VIVA_NOTES.md
