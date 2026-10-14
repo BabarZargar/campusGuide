@@ -15,7 +15,6 @@ function About() {
         <li>React (function components, props, useState, useEffect)</li>
         <li>React Router for the Home, Map and About pages</li>
         <li>Plain CSS: Flexbox, Grid, CSS variables and media queries</li>
-        <li>Vite as the development server and build tool</li>
       </ul>
       <p>
         There is no backend or database. All the place information is stored
@@ -24,8 +23,8 @@ function About() {
 
       <h2>Team</h2>
       <p>
-        Made by [Person 1 name] and [Person 2 name] as a course project for
-        Web Programming (ITL202), NIT Srinagar.
+        Made by Babar Haneef and Syeda Ilha as a course project for
+        Web Programming ITL202, NIT Srinagar.
       </p>
 
       <h2>Map credit</h2>
