@@ -4,11 +4,10 @@ import locations, { categories } from "../data/locations.js";
 import CampusMap from "../components/CampusMap.jsx";
 import LocationDetails from "../components/LocationDetails.jsx";
 import LocationList from "../components/LocationList.jsx";
-import CategoryFilter from "../components/CategoryFilter.jsx";
-import SearchBox from "../components/SearchBox.jsx";
 
 // MapPage owns all the state for this page ("lifting state up").
-// Its children only receive values and functions through props.
+// The filter and search box live here; the map, details and list
+// components only receive values and functions through props.
 function MapPage() {
   // Links on the Home page open e.g. /map?category=Hostel, so start with
   // that category if it's a valid one, otherwise show everything.
@@ -56,12 +55,31 @@ function MapPage() {
       </p>
 
       <div className="map-controls">
-        <CategoryFilter
-          categories={categories}
-          selectedCategory={selectedCategory}
-          onSelectCategory={setSelectedCategory}
-        />
-        <SearchBox searchText={searchText} onSearchChange={setSearchText} />
+        {/* One button per category; the active one gets the "active" class */}
+        <div className="category-filter" role="group" aria-label="Filter places by category">
+          {categories.map((category) => (
+            <button
+              key={category}
+              type="button"
+              className={category === selectedCategory ? "filter-button active" : "filter-button"}
+              onClick={() => setSelectedCategory(category)}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+
+        {/* A "controlled input": state decides what the box shows, and
+            every keystroke updates that state */}
+        <label className="search-box">
+          <span>Search by name</span>
+          <input
+            type="search"
+            value={searchText}
+            onChange={(event) => setSearchText(event.target.value)}
+            placeholder="e.g. Physics, Jehlum, canteen"
+          />
+        </label>
       </div>
 
       <div className="map-layout">

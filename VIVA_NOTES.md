@@ -14,26 +14,20 @@ campusGuide/
 ├── public/favicon.svg      Browser tab icon.
 └── src/
     ├── main.jsx            Entry point: renders <App /> inside <BrowserRouter>.
-    ├── App.jsx             Navbar + Footer on every page, and the routes.
+    ├── App.jsx             Header (navbar) + footer on every page, the routes, and the 404 page.
     ├── index.css           All styles: CSS variables, layout, map pins, media queries.
     ├── assets/
     │   └── campus-map.jpg  The campus map image (2810 × 1713 px).
     ├── data/
     │   └── locations.js    Array of all places + the list of categories.
-    ├── components/         Small reusable pieces
-    │   ├── Navbar.jsx
-    │   ├── Footer.jsx
-    │   ├── CampusMap.jsx       Map image + one MapPin per place
-    │   ├── MapPin.jsx          One clickable pin
+    ├── components/         Reusable pieces that get their data through props
+    │   ├── CampusMap.jsx       Map image + one clickable pin per place
     │   ├── LocationDetails.jsx Details panel (or "Click a place" message)
-    │   ├── LocationList.jsx    Text list of places (also clickable)
-    │   ├── CategoryFilter.jsx  All / Academic / Hostel / ... buttons
-    │   └── SearchBox.jsx       Search-by-name input
+    │   └── LocationList.jsx    Text list of places (also clickable)
     └── pages/              One component per route
         ├── Home.jsx
-        ├── MapPage.jsx      Owns the state for the map page
-        ├── About.jsx
-        └── NotFound.jsx     404 page
+        ├── MapPage.jsx      Owns the state, plus the category buttons and search box
+        └── About.jsx
 ```
 
 **pages vs components:** a page is what a route shows. A component is a smaller piece that pages are built from.
@@ -50,11 +44,11 @@ This is the heart of the project.
    ```
    At first `selectedId` is `null`, so nothing is selected.
 
-2. `MapPage` passes `onSelect={setSelectedId}` down to **`CampusMap`**, and `CampusMap` passes it down to each **`MapPin`**.
+2. `MapPage` passes `onSelect={setSelectedId}` down to **`CampusMap`** as a prop.
 
-3. The user clicks a pin. The pin's button runs:
+3. The user clicks a pin. Inside `CampusMap`'s `.map()`, the pin's button runs:
    ```js
-   onClick={() => onSelect(id)}   // e.g. onSelect("21")
+   onClick={() => onSelect(location.id)}   // e.g. onSelect("21")
    ```
    `onSelect` *is* `setSelectedId`, so this calls `setSelectedId("21")`.
 
@@ -67,7 +61,7 @@ This is the heart of the project.
 
 6. `MapPage` passes it down: `<LocationDetails location={selectedLocation} />`. `LocationDetails` now shows Mega Hostel's details.
 
-7. The same render also passes `selectedId` to `CampusMap` → `MapPin`. The pin whose id matches gets `isSelected={true}` and the `selected` CSS class, so it turns orange. `LocationList` highlights the matching row in the same way.
+7. The same render also passes `selectedId` to `CampusMap`. The pin whose `location.id === selectedId` gets the `selected` CSS class, so it turns orange. `LocationList` highlights the matching row in the same way.
 
 The **`LocationList`** buttons call the same `onSelect`, so clicking a list item does exactly the same thing as clicking a pin.
 
@@ -79,17 +73,14 @@ The **`LocationList`** buttons call the same `onSelect`, so clicking a list item
 
 | Component | Props | What they're for |
 |---|---|---|
-| `Navbar` | none | |
-| `Footer` | none | |
 | `CampusMap` | `locations`, `selectedId`, `onSelect` | Which pins to draw, which one is selected, and the function to call on click. |
-| `MapPin` | `location`, `isSelected`, `onSelect` | The place object, whether to highlight it, and the click function. |
 | `LocationDetails` | `location`, `onClear` | The selected place object (or `undefined`), and the function for the "Clear selection" button. |
 | `LocationList` | `locations`, `selectedId`, `onSelect` | Same idea as `CampusMap`, shown as a list. |
-| `CategoryFilter` | `categories`, `selectedCategory`, `onSelectCategory` | The button names, which one is active, and what to call on click. |
-| `SearchBox` | `searchText`, `onSearchChange` | The current text and the function to call on every keystroke. |
-| Pages (`Home`, `MapPage`, `About`, `NotFound`) | none | They are rendered by routes. |
+| Pages (`Home`, `MapPage`, `About`) | none | They are rendered by routes. |
 
-**Destructuring props:** `function MapPin({ location, isSelected, onSelect })` takes the props object apart in the parameter list. It's the same as writing `function MapPin(props)` and then using `props.location`, etc.
+The header, footer and 404 page are written directly inside `App.jsx`, and the category buttons and search box directly inside `MapPage.jsx`, so they need no props: they use the state and setters that are already in scope.
+
+**Destructuring props:** `function CampusMap({ locations, selectedId, onSelect })` takes the props object apart in the parameter list. It's the same as writing `function CampusMap(props)` and then using `props.locations`, etc.
 
 ---
 
@@ -99,8 +90,8 @@ The **`LocationList`** buttons call the same `onSelect`, so clicking a list item
 | State | Starts as | Changed by |
 |---|---|---|
 | `selectedId` | `null` | Clicking a pin or list item, the Clear button, or the Escape key |
-| `selectedCategory` | `"All"` (or the category from the URL) | `CategoryFilter` buttons |
-| `searchText` | `""` | Typing in `SearchBox` |
+| `selectedCategory` | `"All"` (or the category from the URL) | The category buttons (`onClick={() => setSelectedCategory(category)}`) |
+| `searchText` | `""` | Typing in the search box |
 
 We use state because these values change while the user is on the page, and the screen must update when they do. A normal variable would not trigger a re-render.
 
@@ -119,9 +110,9 @@ useEffect(() => {
 - **The returned function is the cleanup:** React runs it when `MapPage` disappears (for example, when the user goes to the About page). Without it, the listener would keep running on other pages, and a new one would be added every time we came back to the map.
 
 ### `.map()` — turning arrays into JSX
-- `CampusMap.jsx`: one `<MapPin>` per location.
+- `CampusMap.jsx`: one pin `<button>` per location.
 - `LocationList.jsx`: one `<li>` per location.
-- `CategoryFilter.jsx`: one button per category.
+- `MapPage.jsx`: one filter button per category.
 - `LocationDetails.jsx`: one `<li>` per facility.
 - `Home.jsx`: one card per quick link.
 
@@ -145,20 +136,20 @@ This keeps only the places that match both the category and the search text. The
 - `LocationDetails`: `{timings && (...)}` shows Timings only if they aren't `null`.
 - `LocationDetails`: `{facilities.length > 0 && (...)}` shows Facilities only if the array isn't empty.
 - `LocationList`: `{locations.length === 0 ? <p>No places match</p> : <ul>...</ul>}` uses a **ternary** to show one thing or the other.
-- `MapPin`: `isSelected ? "selected" : ""` adds a CSS class only for the selected pin.
+- `CampusMap`: `location.id === selectedId ? "selected" : ""` adds a CSS class only for the selected pin.
 
 ### Event handling
-- `onClick={() => onSelect(id)}` in `MapPin`. The arrow function is needed so that `onSelect` runs **when clicked**, not immediately during render.
-- `onChange={(event) => onSearchChange(event.target.value)}` in `SearchBox`. `event.target.value` is the text currently in the input.
+- `onClick={() => onSelect(location.id)}` in `CampusMap`. The arrow function is needed so that `onSelect` runs **when clicked**, not immediately during render.
+- `onChange={(event) => setSearchText(event.target.value)}` on the search input in `MapPage`. `event.target.value` is the text currently in the input.
 - `window.addEventListener("keydown", ...)` handles the Escape key (see `useEffect` above).
 
-### Controlled input (`SearchBox.jsx`)
+### Controlled input (search box in `MapPage.jsx`)
 The input's `value` comes from state (`searchText`), and `onChange` updates that state. React is always in charge of what the box shows: type → state changes → re-render → input shows the new state.
 
 ### ES6 features
 - **Arrow functions:** `(location) => location.id === selectedId`
-- **Destructuring:** `const { id, name, category, x, y } = location;` and `({ location, isSelected, onSelect })`
-- **Template literals:** `` `${x}%` ``, `` `/map?category=${category}` ``, `` `map-pin pin-${category.toLowerCase()} ...` ``
+- **Destructuring:** `const { name, category, grid, ... } = location;` in `LocationDetails` and `({ locations, selectedId, onSelect })`
+- **Template literals:** `` `${x}%` ``, `` `/map?category=${category}` ``, `` `map-pin pin-${location.category.toLowerCase()} ...` ``
 - **import/export:** `export default locations;` and `export const categories = [...]`. A file can have one default export (imported without `{ }`) and any number of named exports (imported with `{ }`): `import locations, { categories } from "../data/locations.js";`
 - **Fragments `<>...</>`:** group elements without adding an extra `<div>` (used in `Home.jsx` and `LocationDetails.jsx`).
 
@@ -175,15 +166,15 @@ We use the **react-router-dom** package.
      <Route path="/" element={<Home />} />
      <Route path="/map" element={<MapPage />} />
      <Route path="/about" element={<About />} />
-     <Route path="*" element={<NotFound />} />
+     <Route path="*" element={<section><h1>404 — Page not found</h1>...</section>} />
    </Routes>
    ```
-   `<Routes>` picks the **one** route that matches the current URL. `path="*"` matches anything else, which gives us the 404 page.
+   `<Routes>` picks the **one** route that matches the current URL. `path="*"` matches anything else, which gives us the 404 page. It is small, so we wrote its JSX directly in the route instead of making a separate component.
 3. Links use `<Link to="/map">` instead of `<a href="/map">`. `Link` changes the URL **without reloading the page**, so the app stays fast and doesn't restart.
-4. `Navbar` uses **`NavLink`**, which adds `class="active"` to the link for the current page. We style that in CSS (`.navbar-links a.active`).
+4. The header in `App.jsx` uses **`NavLink`**, which adds `class="active"` to the link for the current page. We style that in CSS (`.navbar-links a.active`).
 5. **Query string:** the Home page quick links go to e.g. `/map?category=Hostel`. In `MapPage`, `useSearchParams()` reads `category` from the URL and uses it as the starting value of `selectedCategory`. If the value isn't a real category (e.g. `?category=xyz`), we fall back to `"All"`.
 
-Navbar and Footer sit outside `<Routes>` in `App.jsx`, so they appear on every page.
+The header and footer sit outside `<Routes>` in `App.jsx`, so they appear on every page.
 
 ---
 
@@ -200,13 +191,13 @@ Navbar and Footer sit outside `<Routes>` in `App.jsx`, so they appear on every p
 2. **The image fills the container** (`width: 100%; height: auto; display: block`), so the container is exactly the size of the image.
 3. **Each pin is `position: absolute`** with `left: x%` and `top: y%`, set from the data using an inline style:
    ```jsx
-   style={{ left: `${x}%`, top: `${y}%` }}
+   style={{ left: `${location.x}%`, top: `${location.y}%` }}
    ```
    Percentages are of the container's width and height. If the map shrinks to half its size, 58.1% is still the same spot on the picture. That's why we stored x and y as percentages, not pixels.
 4. **`transform: translate(-50%, -50%)`**: `left`/`top` place the pin's **top-left corner** on the point. Moving it back by half its own width and height puts the pin's **centre** on the point instead.
 5. **Hover/focus/selected:** these add `scale(...)` (the translate part must be repeated, because `transform` replaces the whole value) and a higher `z-index`, so the active pin sits above its neighbours.
 6. **Pin colours** come from CSS variables per category (`.pin-hostel { background: var(--pin-hostel); }`). The colours are semi-transparent `rgba(...)` so the pin drawn on the image still shows through.
-7. **Accessibility:** each pin is a real `<button>`, so it works with Tab and Enter. It has `aria-label={name}` so screen readers say "Mega Hostel", and `aria-pressed` tells them whether it's selected.
+7. **Accessibility:** each pin is a real `<button>`, so it works with Tab and Enter. It has `aria-label={name}` so screen readers say "Mega Hostel" instead of just "21". The map image has `alt` text, and the details panel has `aria-live="polite"` so screen readers read out the new place when the selection changes.
 
 **How we got x%:** pixel position ÷ image width × 100. For example, a pin 1633 px from the left of a 2810 px wide image is at 1633 ÷ 2810 × 100 ≈ 58.1%.
 
@@ -237,6 +228,7 @@ Navbar and Footer sit outside `<Routes>` in `App.jsx`, so they appear on every p
    ```js
    {
      id: "library",              // must be unique
+     label: "★",                 // text on the pin: a number or an icon
      name: "Central Library",
      category: "Facility",       // Academic | Hostel | Food | Sports | Facility
      grid: "B2",
@@ -253,7 +245,7 @@ We tested this: adding one object raised the count from 33 to 34 pins, and remov
 
 **Finding x and y:** open the map in an image viewer that shows pixel positions. Then x = pixel x ÷ 2810 × 100 and y = pixel y ÷ 1713 × 100. Nudge the values by eye until the pin sits on the right spot.
 
-**Pin labels:** places whose id starts with a number show that number (`"10-A"`). Others show an icon based on their category (🍴 Food, ⚽ Sports, ★ Facility). See `categoryIcons` in `MapPin.jsx`.
+**Pin labels:** every place has a `label` field, which is the text drawn on its pin. Numbered places use their number from the printed map (`"8"`, `"10-A"`). Others use an icon (🍴 Food, ⚽ Sports, ★ Facility). `CampusMap` just renders `{location.label}`.
 
 ---
 

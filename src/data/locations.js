@@ -6,7 +6,10 @@
 // (x from the left edge, y from the top edge).
 //
 // Data honesty: timings = null means "we don't know yet" and the UI
-// hides it. facilities = [] also hides that section. Anything marked
+// hides it. facilities = [] also hides that section.
+//
+// label is the text drawn on the pin: the number from the printed map,
+// or an icon (🍴 Food, ⚽ Sports, ★ Facility) for places without one.
 
 // Used by the category filter buttons on the map page.
 export const categories = ["All", "Academic", "Hostel", "Food", "Sports", "Facility"];
@@ -15,6 +18,7 @@ const locations = [
   // ---------- Academic departments ----------
   {
     id: "1",
+    label: "1",
     name: "Chemical Engineering",
     category: "Academic",
     grid: "B1–B2",
@@ -29,6 +33,7 @@ const locations = [
   },
   {
     id: "2",
+    label: "2",
     name: "Chemistry",
     category: "Academic",
     grid: "B2",
@@ -43,6 +48,7 @@ const locations = [
   },
   {
     id: "3",
+    label: "3",
     name: "Civil Engineering",
     category: "Academic",
     grid: "C2",
@@ -57,6 +63,7 @@ const locations = [
   },
   {
     id: "4",
+    label: "4",
     name: "Computer Science & Engineering",
     category: "Academic",
     grid: "B2",
@@ -71,6 +78,7 @@ const locations = [
   },
   {
     id: "5",
+    label: "5",
     name: "Electrical Engineering",
     category: "Academic",
     grid: "B2",
@@ -85,6 +93,7 @@ const locations = [
   },
   {
     id: "6",
+    label: "6",
     name: "Electronics & Communication Engineering",
     category: "Academic",
     grid: "B2",
@@ -99,6 +108,7 @@ const locations = [
   },
   {
     id: "7",
+    label: "7",
     name: "Humanities, Social Sciences & Management",
     category: "Academic",
     grid: "C3",
@@ -113,6 +123,7 @@ const locations = [
   },
   {
     id: "8",
+    label: "8",
     name: "Information Technology",
     category: "Academic",
     grid: "A1–B1",
@@ -127,6 +138,7 @@ const locations = [
   },
   {
     id: "9",
+    label: "9",
     name: "Mathematics",
     category: "Academic",
     grid: "C2",
@@ -141,6 +153,7 @@ const locations = [
   },
   {
     id: "10-A",
+    label: "10-A",
     name: "Mechanical Engineering (Block A)",
     category: "Academic",
     grid: "B1–B2",
@@ -155,6 +168,7 @@ const locations = [
   },
   {
     id: "10-B",
+    label: "10-B",
     name: "Mechanical Engineering (Block B)",
     category: "Academic",
     grid: "B1–B2",
@@ -169,6 +183,7 @@ const locations = [
   },
   {
     id: "11",
+    label: "11",
     name: "Metallurgical & Materials Engineering",
     category: "Academic",
     grid: "B2",
@@ -183,6 +198,7 @@ const locations = [
   },
   {
     id: "12",
+    label: "12",
     name: "Physics",
     category: "Academic",
     grid: "B2",
@@ -199,6 +215,7 @@ const locations = [
   // ---------- Hostels ----------
   {
     id: "13",
+    label: "13",
     name: "Chenab Hostel",
     category: "Hostel",
     grid: "C4",
@@ -212,6 +229,7 @@ const locations = [
   },
   {
     id: "14",
+    label: "14",
     name: "Dal Hostel",
     category: "Hostel",
     grid: "B4",
@@ -226,6 +244,7 @@ const locations = [
   },
   {
     id: "15",
+    label: "15",
     name: "Girls' Hostel",
     category: "Hostel",
     grid: "A2",
@@ -240,6 +259,7 @@ const locations = [
   },
   {
     id: "16",
+    label: "16",
     name: "Indus Hostel",
     category: "Hostel",
     grid: "C3",
@@ -254,6 +274,7 @@ const locations = [
   },
   {
     id: "17",
+    label: "17",
     name: "Jehlum Hostel",
     category: "Hostel",
     grid: "B4",
@@ -267,6 +288,7 @@ const locations = [
   },
   {
     id: "18",
+    label: "18",
     name: "Jehlum Extension Hostel",
     category: "Hostel",
     grid: "C4",
@@ -280,6 +302,7 @@ const locations = [
   },
   {
     id: "19",
+    label: "19",
     name: "Manasbal Hostel",
     category: "Hostel",
     grid: "B3",
@@ -293,6 +316,7 @@ const locations = [
   },
   {
     id: "20",
+    label: "20",
     name: "Mansar Hostel",
     category: "Hostel",
     grid: "B4",
@@ -306,6 +330,7 @@ const locations = [
   },
   {
     id: "21",
+    label: "21",
     name: "Mega Hostel",
     category: "Hostel",
     grid: "B3",
@@ -320,6 +345,7 @@ const locations = [
   },
   {
     id: "22",
+    label: "22",
     name: "Post Graduate Hostel",
     category: "Hostel",
     grid: "C4",
@@ -334,6 +360,7 @@ const locations = [
   },
   {
     id: "23",
+    label: "23",
     name: "Tawi Hostel",
     category: "Hostel",
     grid: "C4",
@@ -349,6 +376,7 @@ const locations = [
   // ---------- Food ----------
   {
     id: "canteen-1",
+    label: "🍴",
     name: "Canteen (near academic area)",
     category: "Food",
     grid: "B2–B3",
@@ -363,6 +391,7 @@ const locations = [
   },
   {
     id: "canteen-2",
+    label: "🍴",
     name: "Canteen (south)",
     category: "Food",
     grid: "C2",
@@ -376,6 +405,7 @@ const locations = [
   },
   {
     id: "canteen-3",
+    label: "🍴",
     name: "Canteen (near hostels)",
     category: "Food",
     grid: "C3",
@@ -392,6 +422,7 @@ const locations = [
   // ---------- Sports ----------
   {
     id: "stadium",
+    label: "⚽",
     name: "Sports Stadium & Athletics Track",
     category: "Sports",
     grid: "A3–B3",
@@ -406,6 +437,7 @@ const locations = [
   },
   {
     id: "ground",
+    label: "⚽",
     name: "Cricket Ground",
     category: "Sports",
     grid: "B3",
@@ -420,6 +452,7 @@ const locations = [
   },
   {
     id: "courts",
+    label: "⚽",
     name: "Basketball / Tennis Courts",
     category: "Sports",
     grid: "B2–B3",
@@ -436,6 +469,7 @@ const locations = [
   // ---------- Facilities ----------
   {
     id: "med",
+    label: "★",
     name: "Medical Unit",
     category: "Facility",
     grid: "C3",
@@ -449,6 +483,7 @@ const locations = [
   },
   {
     id: "shop",
+    label: "★",
     name: "Shopping / Convenience Store",
     category: "Facility",
     grid: "C3",
@@ -463,6 +498,7 @@ const locations = [
   },
   {
     id: "gate",
+    label: "★",
     name: "Main Gate (Nigeen side)",
     category: "Facility",
     grid: "C1",

@@ -27,6 +27,23 @@ Then open the address printed in the terminal (usually http://localhost:5173).
 | `npm run preview` | Serves the `dist/` build locally to check it.          |
 | `npm run lint`    | Checks the code for common mistakes (oxlint).          |
 
+## Project structure
+
+```
+src/
+  main.jsx                       Entry point (BrowserRouter + App)
+  App.jsx                        Header, nav, footer, routes and the 404 page
+  index.css                      All styles
+  assets/campus-map.jpg          The campus map image
+  data/locations.js              All 33 places + the category list
+  pages/Home.jsx                 Welcome text and quick links
+  pages/MapPage.jsx              Map page state, category buttons, search box
+  pages/About.jsx                About the project
+  components/CampusMap.jsx       Map image + clickable pins
+  components/LocationDetails.jsx Details panel for the selected place
+  components/LocationList.jsx    Clickable list of places
+```
+
 ## Editing place information
 
 All locations are in [src/data/locations.js](src/data/locations.js). Fields set to `null` or `[]` are hidden on the site. Text marked `TODO: verify` still needs checking on campus.
