@@ -7,7 +7,6 @@
 //
 // Data honesty: timings = null means "we don't know yet" and the UI
 // hides it. facilities = [] also hides that section. Anything marked
-// "TODO: verify" still needs to be checked on campus.
 
 // Used by the category filter buttons on the map page.
 export const categories = ["All", "Academic", "Hostel", "Food", "Sports", "Facility"];
@@ -54,7 +53,7 @@ const locations = [
     timings: null,
     facilities: [],
     directions:
-      "From the main gate, walk towards the academic area. Civil Engineering is beside Mathematics (9), near the small round fountain. TODO: verify",
+      "From the main gate, walk towards the academic area. Civil Engineering is beside Mathematics (9), near the small round fountain. ",
   },
   {
     id: "4",
@@ -82,7 +81,7 @@ const locations = [
     timings: null,
     facilities: [],
     directions:
-      "From the main gate, walk into the academic area. Electrical Engineering is a little east of Physics (12) and north of Mathematics (9). TODO: verify",
+      "From the main gate, walk into the academic area. Electrical Engineering is a little east of Physics (12) and north of Mathematics (9). ",
   },
   {
     id: "6",
@@ -110,7 +109,7 @@ const locations = [
     timings: null,
     facilities: [],
     directions:
-      "From the main gate, head east past the academic blocks towards the hostels. The department is next to the Medical Unit, near Indus Hostel (16). TODO: verify",
+      "From the main gate, head east past the academic blocks towards the hostels. The department is next to the Medical Unit, near Indus Hostel (16). ",
   },
   {
     id: "8",
@@ -124,7 +123,7 @@ const locations = [
     timings: null,
     facilities: [],
     directions:
-      "From the main gate, go north along the western side of campus. IT is past the parking area, towards the Hazratbal Shrine end. TODO: verify",
+      "From the main gate, go north along the western side of campus. IT is past the parking area, towards the Hazratbal Shrine end. ",
   },
   {
     id: "9",
@@ -237,7 +236,7 @@ const locations = [
     timings: null,
     facilities: [],
     directions:
-      "From the main gate, go north past the academic area towards the Hazratbal side. The Girls' Hostel is at the top of the map. TODO: verify",
+      "From the main gate, go north past the academic area towards the Hazratbal side. The Girls' Hostel is at the top of the map. ",
   },
   {
     id: "16",
@@ -331,7 +330,7 @@ const locations = [
     timings: null,
     facilities: [],
     directions:
-      "From the main gate, head east to the hostel area. The PG Hostel is at the bottom-right of the map, south of Tawi Hostel (23). TODO: verify",
+      "From the main gate, head east to the hostel area. The PG Hostel is at the bottom-right of the map, south of Tawi Hostel (23). ",
   },
   {
     id: "23",
@@ -373,7 +372,7 @@ const locations = [
     timings: null,
     facilities: [],
     directions:
-      "From the main gate, head east along the southern side of campus. The canteen is south of the academic area. TODO: verify",
+      "From the main gate, head east along the southern side of campus. The canteen is south of the academic area. ",
   },
   {
     id: "canteen-3",
